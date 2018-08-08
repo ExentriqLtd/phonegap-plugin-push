@@ -42,6 +42,8 @@
     void (^completionHandler)(UIBackgroundFetchResult);
 
     BOOL ready;
+    NSData *_token;
+    NSString *_deviceVendorId;
 }
 
 @property (nonatomic, copy) NSString *callbackId;
@@ -64,6 +66,7 @@
 
 - (void)setNotificationMessage:(NSDictionary *)notification;
 - (void)notificationReceived;
+- (void)getToken:(CDVInvokedUrlCommand *)command;
 
 - (void)willSendDataMessageWithID:(NSString *)messageID error:(NSError *)error;
 - (void)didSendDataMessageWithID:(NSString *)messageID;

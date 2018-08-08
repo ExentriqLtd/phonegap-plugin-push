@@ -422,6 +422,10 @@
         [self registerWithToken: token];
     }
 #endif
+    NSLog(@"Device token: %@", token);
+    _token = [NSData dataWithData:deviceToken];
+    _deviceVendorId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    NSLog(@"Device Vendor ID: %@", _deviceVendorId);
 }
 
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
@@ -644,5 +648,17 @@
     self.notificationMessage = payload.dictionaryPayload;
     [self notificationReceived];
 }
+
+- (void)getToken:(CDVInvokedUrlCommand *)command {
+    NSString *tokenString = [NSString stringWithFormat:@"%@+%@", _token, _deviceVendorId];
+    NSLog(@"Sending token %@", tokenString);
+    CDVPluginResult* pluginResult = [CDVPluginResult
+                                     resultWithStatus:CDVCommandStatus_OK
+                                     messageAsString:tokenString];
+
+
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 
 @end
